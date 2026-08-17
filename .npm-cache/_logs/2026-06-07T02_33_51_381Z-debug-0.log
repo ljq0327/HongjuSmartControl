@@ -1,0 +1,104 @@
+0 verbose cli D:\Program Files\DevEco Studio\tools\node\node.exe D:\Program Files\DevEco Studio\tools\node\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.5.0
+2 info using node@v18.20.1
+3 timing npm:load:whichnode Completed in 1ms
+4 timing config:load:defaults Completed in 3ms
+5 timing config:load:file:D:\Program Files\DevEco Studio\tools\node\node_modules\npm\npmrc Completed in 1ms
+6 timing config:load:builtin Completed in 1ms
+7 timing config:load:cli Completed in 1ms
+8 timing config:load:env Completed in 0ms
+9 timing config:load:file:E:\hongmeng\.hvigoruser\wrapper\tools\.npmrc Completed in 0ms
+10 timing config:load:project Completed in 1ms
+11 timing config:load:file:C:\Users\Administrator\.npmrc Completed in 1ms
+12 timing config:load:user Completed in 1ms
+13 timing config:load:file:D:\Program Files (x86)\nodej\node_cache\etc\npmrc Completed in 0ms
+14 timing config:load:global Completed in 0ms
+15 timing config:load:setEnvs Completed in 1ms
+16 timing config:load Completed in 8ms
+17 timing npm:load:configload Completed in 8ms
+18 timing config:load:flatten Completed in 1ms
+19 timing npm:load:mkdirpcache Completed in 0ms
+20 timing npm:load:mkdirplogs Completed in 0ms
+21 verbose title npm install pnpm
+22 verbose argv "install" "pnpm"
+23 timing npm:load:setTitle Completed in 0ms
+24 timing npm:load:display Completed in 1ms
+25 verbose logfile logs-max:10 dir:E:\hongmeng\.npm-cache\_logs\2026-06-07T02_33_51_381Z-
+26 verbose logfile E:\hongmeng\.npm-cache\_logs\2026-06-07T02_33_51_381Z-debug-0.log
+27 timing npm:load:logFile Completed in 5ms
+28 timing npm:load:timers Completed in 1ms
+29 timing npm:load:configScope Completed in 0ms
+30 timing npm:load Completed in 37ms
+31 timing arborist:ctor Completed in 0ms
+32 silly logfile done cleaning log files
+33 timing arborist:ctor Completed in 0ms
+34 timing idealTree:init Completed in 8ms
+35 timing idealTree:userRequests Completed in 1ms
+36 silly idealTree buildDeps
+37 silly fetch manifest pnpm@10.28.2
+38 http fetch GET 200 https://registry.npmmirror.com/pnpm 216ms (cache miss)
+39 silly placeDep ROOT pnpm@10.28.2 OK for:  want: 10.28.2
+40 timing idealTree:#root Completed in 259ms
+41 timing idealTree:node_modules/pnpm Completed in 0ms
+42 timing idealTree:buildDeps Completed in 259ms
+43 timing idealTree:fixDepFlags Completed in 0ms
+44 timing idealTree Completed in 271ms
+45 timing reify:loadTrees Completed in 271ms
+46 timing reify:diffTrees Completed in 1ms
+47 silly reify moves {}
+48 timing reify:retireShallow Completed in 1ms
+49 timing reify:createSparse Completed in 3ms
+50 timing reify:loadBundles Completed in 0ms
+51 silly audit bulk request { pnpm: [ '10.28.2' ] }
+52 silly tarball no local data for pnpm@https://registry.npmmirror.com/pnpm/-/pnpm-10.28.2.tgz. Extracting by manifest.
+53 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/advisories/bulk 21ms
+54 silly audit bulk request failed [object Object]
+55 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/audits/quick 11ms
+56 verbose audit error HttpErrorGeneral: 404 Not Found - POST https://registry.npmmirror.com/-/npm/v1/security/audits/quick - [NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet
+56 verbose audit error     at D:\Program Files\DevEco Studio\tools\node\node_modules\npm\node_modules\npm-registry-fetch\lib\check-response.js:95:15
+56 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+56 verbose audit error     at async [getReport] (D:\Program Files\DevEco Studio\tools\node\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:335:21)
+56 verbose audit error     at async AuditReport.run (D:\Program Files\DevEco Studio\tools\node\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:106:19) {
+56 verbose audit error   headers: [Object: null prototype] {
+56 verbose audit error     server: [ 'Tengine' ],
+56 verbose audit error     date: [ 'Sun, 07 Jun 2026 02:33:52 GMT' ],
+56 verbose audit error     'content-type': [ 'application/json' ],
+56 verbose audit error     'transfer-encoding': [ 'chunked' ],
+56 verbose audit error     connection: [ 'keep-alive' ],
+56 verbose audit error     'strict-transport-security': [ 'max-age=5184000' ],
+56 verbose audit error     via: [ 'kunlun11.cn5220[,404666]' ],
+56 verbose audit error     'timing-allow-origin': [ '*' ],
+56 verbose audit error     eagleid: [ '77bcac9f17807996321476212e' ],
+56 verbose audit error     'x-fetch-attempts': [ '1' ]
+56 verbose audit error   },
+56 verbose audit error   statusCode: 404,
+56 verbose audit error   code: 'E404',
+56 verbose audit error   method: 'POST',
+56 verbose audit error   uri: 'https://registry.npmmirror.com/-/npm/v1/security/audits/quick',
+56 verbose audit error   body: {
+56 verbose audit error     error: '[NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet'
+56 verbose audit error   },
+56 verbose audit error   pkgid: undefined
+56 verbose audit error }
+57 silly audit error [object Object]
+58 timing auditReport:getReport Completed in 36ms
+59 silly audit report null
+60 timing reify:audit Completed in 36ms
+61 http fetch GET 200 https://cdn.npmmirror.com/packages/pnpm/10.28.2/pnpm-10.28.2.tgz 1127ms (cache miss)
+62 timing reifyNode:node_modules/pnpm Completed in 1135ms
+63 timing reify:unpack Completed in 1135ms
+64 timing reify:unretire Completed in 0ms
+65 timing build:queue Completed in 0ms
+66 timing build:link:node_modules/pnpm Completed in 3ms
+67 timing build:link Completed in 4ms
+68 timing build:deps Completed in 4ms
+69 timing build Completed in 4ms
+70 timing reify:build Completed in 4ms
+71 timing reify:trash Completed in 0ms
+72 timing reify:save Completed in 4ms
+73 timing reify Completed in 1427ms
+74 silly ADD node_modules/pnpm
+75 timing command:install Completed in 1429ms
+76 verbose exit 0
+77 timing npm Completed in 1638ms
+78 info ok
