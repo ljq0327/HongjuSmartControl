@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Hongju smart home control demo"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Hongju smart home control center"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "鸿居智控"
+    }
+  ]
+}
