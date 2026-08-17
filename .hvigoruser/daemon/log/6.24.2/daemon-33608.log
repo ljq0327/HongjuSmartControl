@@ -1,0 +1,104 @@
+[2026-06-07T11:02:05.048] [DEBUG] daemon - hvigor daemon: Daemon logger configured successfully
+[2026-06-07T11:02:05.050] [DEBUG] daemon - hvigor daemon: Set daemon process log level, logLevel=INFO
+[2026-06-07T11:02:05.050] [DEBUG] daemon - hvigor daemon: Decrypting session id, session lengthId=192
+[2026-06-07T11:02:05.050] [DEBUG] daemon - hvigor daemon: Session id decrypted successfully, sessionId prefix=9d3246c5...
+[2026-06-07T11:02:05.051] [DEBUG] daemon - hvigor daemon: Initializing cluster
+[2026-06-07T11:02:05.054] [DEBUG] daemon - hvigor daemon: Creating new worker process. trigByConfigChange=false, execArgv=["--max-old-space-size=8192","--max-semi-space-size=16","--expose-gc"]
+[2026-06-07T11:02:05.087] [DEBUG] daemon - hvigor daemon: Worker process forked. workerId=1, pid=27120
+[2026-06-07T11:02:05.089] [DEBUG] daemon - hvigor daemon: HvigorDaemonServer instance created, sessionId prefix=9d3246c5...
+[2026-06-07T11:02:05.089] [DEBUG] daemon - hvigor daemon: Process listener registered
+[2026-06-07T11:02:05.090] [DEBUG] daemon - hvigor daemon: Server listener registered
+[2026-06-07T11:02:05.090] [DEBUG] daemon - hvigor daemon: Starting server listen
+[2026-06-07T11:02:05.090] [DEBUG] daemon - hvigor daemon: Starting port scan. minPort=45000, maxPort=45099
+[2026-06-07T11:02:05.112] [DEBUG] daemon - hvigor daemon: worker process fork option:
+[2026-06-07T11:02:05.113] [DEBUG] daemon - {
+  args: [
+    'INFO',
+    '000000507aab3eadd0101a9ec0d1d19b8ab741f1b54c639b5d119a0d3b9c927e34c4ee992b69f899e4bd798adf336d36e7507c1926763e030b5192bdadec77d694999eadf8abd646c4329655d8cf259a2e6d9ec8ecfdc849cffb5c6f5af3408b'
+  ],
+  exec: 'D:\\Program Files\\DevEco Studio\\tools\\hvigor\\hvigor\\src\\base\\daemon\\process\\daemon-process-boot-script.js',
+  execArgv: [
+    '--max-old-space-size=8192',
+    '--max-semi-space-size=16',
+    '--expose-gc'
+  ],
+  silent: true,
+  windowsHide: true
+}
+[2026-06-07T11:02:05.113] [DEBUG] daemon - hvigor daemon: worker process fork option:
+[2026-06-07T11:02:05.113] [DEBUG] daemon - {
+  args: [
+    'INFO',
+    '000000507aab3eadd0101a9ec0d1d19b8ab741f1b54c639b5d119a0d3b9c927e34c4ee992b69f899e4bd798adf336d36e7507c1926763e030b5192bdadec77d694999eadf8abd646c4329655d8cf259a2e6d9ec8ecfdc849cffb5c6f5af3408b'
+  ],
+  exec: 'D:\\Program Files\\DevEco Studio\\tools\\hvigor\\hvigor\\src\\base\\daemon\\process\\daemon-process-boot-script.js',
+  execArgv: [
+    '--max-old-space-size=8192',
+    '--max-semi-space-size=16',
+    '--expose-gc'
+  ],
+  silent: true,
+  windowsHide: true
+}
+[2026-06-07T11:02:05.114] [DEBUG] daemon - hvigor daemon: worker process fork option:
+[2026-06-07T11:02:05.114] [DEBUG] daemon - {
+  args: [
+    'INFO',
+    '000000507aab3eadd0101a9ec0d1d19b8ab741f1b54c639b5d119a0d3b9c927e34c4ee992b69f899e4bd798adf336d36e7507c1926763e030b5192bdadec77d694999eadf8abd646c4329655d8cf259a2e6d9ec8ecfdc849cffb5c6f5af3408b'
+  ],
+  exec: 'D:\\Program Files\\DevEco Studio\\tools\\hvigor\\hvigor\\src\\base\\daemon\\process\\daemon-process-boot-script.js',
+  execArgv: [
+    '--max-old-space-size=8192',
+    '--max-semi-space-size=16',
+    '--expose-gc'
+  ],
+  silent: true,
+  windowsHide: true
+}
+[2026-06-07T11:02:05.115] [DEBUG] daemon - 45000 is occupied by other process.
+[2026-06-07T11:02:05.116] [DEBUG] daemon - hvigor daemon: Available port found. port=45001, hostname=127.0.0.1
+[2026-06-07T11:02:05.117] [DEBUG] daemon - hvigor daemon: Server started listening, setting up timers
+[2026-06-07T11:02:05.117] [DEBUG] daemon - hvigor daemon: listening connection. address=127.0.0.1, port=45001.
+[2026-06-07T11:02:05.118] [DEBUG] daemon - hvigor daemon: Create default daemon info. execArgv=--max-old-space-size=8192,--max-semi-space-size=16,--expose-gc
+[2026-06-07T11:02:05.118] [DEBUG] daemon - hvigor work dir: 537540c32c8455a4e4c36fb2c597e57bb8b028a70875e1831adf5fe751ce4dc1
+[2026-06-07T11:02:05.136] [DEBUG] daemon - hvigor daemon: worker 27120 with worker id 1 is online.
+[2026-06-07T11:02:05.144] [DEBUG] daemon - hvigor daemon: Socket is connected. socketId=h96zwWGqrjDJ5L6HAAAB, connectionCount=1, maxLimit=10
+[2026-06-07T11:02:05.145] [DEBUG] daemon - hvigor daemon: daemonState=idle
+      daemonInfo=[{"pid":25388,"state":"broken","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"9d2d49b16ba99b7bc99aac4568d971c8ec11e198","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780799678053,"createdBy":"command","sessionId":"0000005045694886d078a916197f52b7caf580baf54ede9d3507444dfedcb4224d798e01b3a02f7150e530dd2ae07292a5c3660d3f8c3630e9dd86624ce5dbded896c32d1f0854954708a3db1ba0b0e6c6e4989d14beda68d9df93d0311b7bf3","info":"process is broken by user or operating system."},{"pid":25328,"state":"broken","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"6173f90df7188b7a29c0500abced468fa46c573e","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780800022187,"createdBy":"command","sessionId":"0000005035b359da63ff66ad832669758afe017edeb23949fefc7bae231cb5fb3d6af4632d17841178f35e69d4bcbb1d95e25eb30dee80c71cc101adfca7521d191e2f4ecfa00b996fecb30523b135acd9340866bb24cc893ed8a529cc4ae00f","info":"process is broken by user or operating system."},{"pid":34060,"state":"broken","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"a68747adda676c5091ffb3395f0143c691df768e","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780800773030,"createdBy":"command","sessionId":"00000050507b32ad0bbb5d15833a123f5d563a9024636def954ce4e4dff5e99cf3355ac7b8beab1a5240cc4f4b92bff13347a62ab43cea98ef3326cb06957e60582b314a0c20a7fe1d016941c646f08389ec60225ac0159dc2281897b38fb813","info":"process is broken by user or operating system."},{"pid":7640,"state":"broken","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"84403c1fa4d0cf187615e165dbc8f7edf881a02e","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801324568,"createdBy":"command","sessionId":"000000506868139f329deb5894ed8a887d2a65328ff44c5da4340cbea89b93995133fbd9b9047c053b2c70afed23445de87a1d0b4590644b2bcd7ce926c66dec1fa160aab172bb4aacb93685034b2d4413198ffa2813784716c0e63feddf5f7b","info":"process is broken by user or operating system."},{"pid":33608,"state":"idle","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801325120,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}]
+[2026-06-07T11:02:05.145] [DEBUG] daemon - hvigor daemon: Process state changed from idle to HALF_BUSY
+[2026-06-07T11:02:05.145] [DEBUG] daemon - hvigor daemon: Process state changed. previousState=idle, newState=half_busy, changeInfo=undefined
+[2026-06-07T11:02:05.146] [DEBUG] daemon - hvigor daemon: Update daemon info in registry. daemonInfo={"pid":33608,"state":"half_busy","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801325120,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}
+[2026-06-07T11:02:05.148] [DEBUG] daemon - hvigor daemon: Receive build request from client. socketId=h96zwWGqrjDJ5L6HAAAB, task=PreviewBuild
+[2026-06-07T11:02:05.153] [DEBUG] daemon - session manager: set active socket. socketId=h96zwWGqrjDJ5L6HAAAB
+[2026-06-07T11:02:05.153] [DEBUG] daemon - hvigor daemon: Process state changed. previousState=half_busy, newState=stopReq, changeInfo=undefined
+[2026-06-07T11:02:05.153] [DEBUG] daemon - hvigor daemon: Update daemon info in registry. daemonInfo={"pid":33608,"state":"stopReq","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801325147,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}
+[2026-06-07T11:02:05.154] [DEBUG] daemon - hvigor daemon: Build start. socketId=h96zwWGqrjDJ5L6HAAAB, currentState=stopReq
+[2026-06-07T11:02:05.155] [DEBUG] daemon - hvigor daemon: Process state changed. previousState=stopReq, newState=busy, changeInfo=undefined
+[2026-06-07T11:02:05.155] [DEBUG] daemon - hvigor daemon: Update daemon info in registry. daemonInfo={"pid":33608,"state":"busy","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801325154,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}
+[2026-06-07T11:02:05.156] [DEBUG] daemon - hvigor daemon: Reusing existing worker. 
+      workerId=1, pid=27120, isConnected=true, isDead=false
+[2026-06-07T11:02:05.667] [DEBUG] daemon - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
+[2026-06-07T11:02:05.668] [DEBUG] daemon - hvigor worker: Received build request. task=PreviewBuild, hotCompile=undefined
+[2026-06-07T11:02:05.668] [DEBUG] daemon - hvigor worker: Refreshing daemon process environment and initializing start data
+[2026-06-07T11:02:07.027] [DEBUG] daemon - watch files: [ 'E:\\hongmeng\\hvigorfile.ts', 'E:\\hongmeng\\entry\\hvigorfile.ts' ]
+[2026-06-07T11:02:07.129] [DEBUG] daemon - session manager: binding session. socketId=h96zwWGqrjDJ5L6HAAAB, threadId=1@1.
+[2026-06-07T11:02:07.132] [DEBUG] daemon - hvigor worker: Build process completed
+[2026-06-07T11:02:08.771] [DEBUG] daemon - watch worker: send response to session manager. Response type: WatchStart
+[2026-06-07T11:02:08.772] [DEBUG] daemon - session manager: watch message received from worker 1. Type: WatchStart
+[2026-06-07T11:02:10.468] [DEBUG] daemon - watch worker: send response to session manager. Response type: WatchLog
+[2026-06-07T11:02:10.469] [DEBUG] daemon - session manager: watch message received from worker 1. Type: WatchLog
+[2026-06-07T11:02:11.869] [DEBUG] daemon - watch worker: send response to session manager. Response type: WatchResult
+[2026-06-07T11:02:11.870] [DEBUG] daemon - session manager: watch message received from worker 1. Type: WatchResult
+[2026-06-07T11:02:11.893] [DEBUG] daemon - hvigor daemon: worker process 27120 finished. Build Finished.
+[2026-06-07T11:02:11.893] [DEBUG] daemon - The process timeout timer will be reset.
+[2026-06-07T11:02:11.894] [DEBUG] daemon - hvigor daemon: Process state changed. previousState=busy, newState=half_busy, changeInfo=undefined
+[2026-06-07T11:02:11.894] [DEBUG] daemon - hvigor daemon: Update daemon info in registry. daemonInfo={"pid":33608,"state":"half_busy","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801325155,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}
+[2026-06-07T11:02:11.896] [DEBUG] daemon - hvigor daemon: Build end. socketId=h96zwWGqrjDJ5L6HAAAB, exitCode=0, duration=6 s 748 ms 
+[2026-06-07T11:02:11.897] [DEBUG] daemon - hvigor disconnect:  client namespace disconnect
+[2026-06-07T11:02:11.897] [DEBUG] daemon - session manager: send message to worker process.
+[2026-06-07T11:02:11.898] [DEBUG] daemon - session manager: send message to worker process.
+[2026-06-07T11:02:11.898] [DEBUG] daemon - hvigor daemon: Socket will be closed. socketId=h96zwWGqrjDJ5L6HAAAB, connectionCount=0
+[2026-06-07T11:02:11.898] [DEBUG] daemon - hvigor daemon: Process state changed. previousState=half_busy, newState=idle, changeInfo=undefined
+[2026-06-07T11:02:11.899] [DEBUG] daemon - hvigor daemon: Update daemon info in registry. daemonInfo={"pid":33608,"state":"idle","address":"127.0.0.1","cwdPath":"E:\\hongmeng","cachePath":"E:\\hongmeng\\.hvigor","hvigorVersion":"6.24.2","keyId":"3e93dcb3bec55669007bfc34fa78c5e3280e5488","nodeParams":"c16035bf78fa72f9fb54d6f0e2d181ef8608ad025f7d3eb867ff33905ff22d04","nodeVersion":"v18.20.1","port":45001,"lastUsedTime":1780801331895,"createdBy":"command","sessionId":"00000050a88cea24ac9bdd00f2f56ed27b5ea98ad461a6116d430fc0278540178c0e41ab61f11d8c8e410dbc331628c1730e6ba7048d1b27ea27d96520843294321a64479e0ac4bea02358a05d648709081b356809949daacf954485cac2ca55"}
+[2026-06-07T11:02:11.912] [DEBUG] daemon - watch worker: worker is ready to be terminated.
+[2026-06-07T11:02:11.912] [DEBUG] daemon - Server currently has 0 watch-worker
