@@ -1,0 +1,14 @@
+{
+  "name": "hongju-control-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "鸿居智控 Node.js backend with optional MySQL persistence",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.11.5",
+    "three": "^0.185.1"
+  }
+}

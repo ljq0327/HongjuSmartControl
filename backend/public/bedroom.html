@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>鸿居智控 - 数字孪生网页端</title>
+  </title>
+  <link rel="stylesheet" href="/assets/bedroom-enhance.css">
+  <style>
+    * { box-sizing: border-box; }
+    :root { color-scheme: dark; --bg:#0d1422; --panel:#151e2d; --line:rgba(255,255,255,.08); --text:#eef5ff; --muted:#9dafc5; --accent:#dff4eb; --accent-text:#165c4e; }
+    body { margin:0; min-height:100vh; font-family:"Microsoft YaHei",Arial,sans-serif; color:var(--text); background:linear-gradient(180deg,#111c2f 0%,var(--bg) 100%); }
+    main { width:min(1240px,94vw); margin:0 auto; padding:28px 0 36px; }
+    header { display:flex; justify-content:space-between; align-items:flex-end; gap:18px; margin-bottom:18px; }
+    h1,h2,h3,h4,p { margin:0; }
+    h1 { font-size:30px; margin-bottom:8px; }
+    .muted,.subtitle,.meta { color:var(--muted); font-size:13px; }
+    .meta { text-align:right; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(340px,.95fr); gap:18px; }
+    .panel,.card { border:1px solid var(--line); background:rgba(21,30,45,.92); box-shadow:0 18px 48px rgba(0,0,0,.24); }
+    .panel { border-radius:24px; padding:22px; }
+    .card { border-radius:18px; padding:16px; }
+    .cards { display:grid; gap:12px; margin-top:14px; }
+    .panel-head,.card-top { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .title { font-size:23px; }
+    .pill { display:inline-flex; align-items:center; justify-content:center; min-width:92px; min-height:34px; padding:8px 14px; border-radius:999px; color:#bed0e6; background:rgba(255,255,255,.08); font-size:13px; font-weight:700; white-space:nowrap; }
+    .pill.active { color:var(--accent-text); background:var(--accent); }
+    .room-tabs,.mode-row,.actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .room-tabs { margin:16px 0; }
+    button,.upload-label { border:0; border-radius:999px; min-height:38px; padding:0 16px; cursor:pointer; color:#d5e4f5; background:rgba(255,255,255,.08); font-weight:700; font-size:13px; }
+    button.active,.upload-label { color:var(--accent-text); background:var(--accent); }
+    button:disabled { cursor:not-allowed; opacity:.5; }
+    .room-scene { position:relative; min-height:420px; overflow:hidden; border:1px solid var(--line); border-radius:24px; background:radial-gradient(circle at 50% 18%,rgba(255,236,164,.16),transparent 28%),linear-gradient(180deg,#26354d 0%,#172031 100%); }
+    .scene-lights { position:absolute; inset:26px 26px auto; display:flex; justify-content:center; gap:28px; }
+    .ceiling-light { width:78px; height:78px; border-radius:50%; border:1px solid rgba(255,255,255,.18); background:rgba(227,235,248,.24); transition:box-shadow .25s ease,background .25s ease; }
+    .window-frame { position:absolute; right:42px; top:64px; width:170px; height:196px; overflow:hidden; border-radius:24px; border:1px solid rgba(255,255,255,.16); background:linear-gradient(180deg,rgba(170,214,255,.5),rgba(81,129,180,.22)); }
+    .curtain-panel { position:absolute; top:0; bottom:0; width:52%; background:linear-gradient(180deg,rgba(228,235,246,.94),rgba(176,190,212,.94)); transition:transform .35s ease,opacity .35s ease; }
+    .curtain-panel.left { left:0; }
+    .curtain-panel.right { right:0; }
+    .ac-panel { position:absolute; left:42px; top:138px; width:160px; padding:16px; border-radius:18px; background:rgba(255,255,255,.11); }
+    .ac-panel strong { display:block; margin-top:6px; font-size:34px; }
+    .sensor-row { position:absolute; left:34px; bottom:32px; display:flex; gap:10px; }
+    .sensor-card,.info-item { padding:12px 14px; border-radius:16px; background:rgba(255,255,255,.08); }
+    .sensor-card strong,.info-item strong { display:block; margin-top:5px; font-size:20px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+    .meter { margin-top:12px; height:10px; overflow:hidden; border-radius:999px; background:rgba(255,255,255,.08); }
+    .fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#f0b638,#ffe08f); }
+    .temp-stepper { display:grid; grid-template-columns:40px minmax(88px,1fr) 40px; gap:10px; align-items:center; margin-top:14px; }
+    .step-btn { width:40px; height:40px; padding:0; border-radius:12px; font-size:22px; }
+    .temp-display { padding:12px; border-radius:16px; text-align:center; background:rgba(255,255,255,.06); }
+    .temp-display strong { display:block; font-size:26px; }
+    .environment-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+    label { display:grid; gap:8px; }
+    input { width:100%; height:42px; border:0; outline:none; border-radius:14px; padding:0 14px; color:#fff; background:rgba(255,255,255,.08); }
+    .actions { justify-content:space-between; align-items:center; margin-top:14px; }
+    .robot-map { position:relative; height:190px; margin-top:14px; overflow:hidden; border-radius:18px; border:1px solid var(--line); background:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.05) 1px,transparent 1px),rgba(255,255,255,.035); background-size:25% 50%,25% 50%,auto; }
+    .robot-area { position:absolute; border-radius:18px; border:1px solid rgba(223,244,235,.64); background:rgba(223,244,235,.18); transition:inset .25s ease,opacity .25s ease; }
+    .robot-dot { position:absolute; width:30px; height:30px; display:grid; place-items:center; border-radius:50%; color:var(--accent-text); background:var(--accent); font-weight:800; box-shadow:0 12px 24px rgba(0,0,0,.25); transition:left .25s ease,top .25s ease,transform .25s ease; }
+    .robot-rooms { position:absolute; inset:0; pointer-events:none; }
+    .robot-rooms span { position:absolute; color:rgba(237,243,251,.58); font-size:12px; font-weight:700; }
+    .camera-box { overflow:hidden; border-radius:20px; background:rgba(255,255,255,.06); }
+    .camera-video,.camera-empty { display:block; width:100%; aspect-ratio:16/9; background:#0d1422; }
+    .camera-video { object-fit:cover; }
+    .camera-empty { display:grid; place-items:center; color:var(--muted); }
+    .camera-meta { display:grid; gap:8px; padding:16px; }
+    .video-input { display:none; }
+    .door-zone { position:relative; height:170px; margin-top:16px; border-radius:20px; background:rgba(255,255,255,.04); }
+    .door-frame,.door-leaf { position:absolute; right:46px; bottom:18px; width:116px; height:138px; border-radius:22px 22px 10px 10px; }
+    .door-frame { background:rgba(255,255,255,.08); }
+    .door-leaf { background:linear-gradient(180deg,#41506a,#2e394c); transform-origin:left bottom; transition:transform .35s ease; }
+    .door-leaf.open { transform:perspective(800px) rotateY(-60deg); }
+    .lock-icon { position:absolute; right:180px; bottom:70px; font-size:36px; }
+    .log { padding:10px 0; color:#a9bad0; font-size:13px; border-bottom:1px solid rgba(255,255,255,.06); }
+    .empty-note { padding:16px; border-radius:16px; color:var(--muted); background:rgba(255,255,255,.05); }
+    @media (max-width:980px) { .layout { grid-template-columns:1fr; } }
+    @media (max-width:720px) {
+      header,.panel-head,.card-top,.actions { align-items:flex-start; flex-direction:column; }
+      .grid-2,.environment-grid { grid-template-columns:1fr; }
+      .sensor-row { right:18px; left:18px; bottom:18px; flex-wrap:wrap; }
+      .ac-panel { left:24px; top:124px; }
+      .window-frame { right:24px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>家庭数字孪生平台</h1>
+        <p id="summary" class="subtitle">等待网关同步设备状态...</p>
+      </div>
+      <p id="meta" class="meta">鸿居智控 / 网页端实时联动</p>
+    </header>
+    <section class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="roomName" class="title">房间</h2>
+            <p id="roomMode" class="subtitle">灯光、空调、窗帘与环境数据实时同步</p>
+          </div>
+          <div id="lightBadge" class="pill">灯光关闭</div>
+        </div>
+        <div id="roomTabs" class="room-tabs"></div>
+        <div id="roomScene" class="room-scene">
+          <div id="sceneLights" class="scene-lights"></div>
+          <div class="window-frame">
+            <div id="curtainLeft" class="curtain-panel left"></div>
+            <div id="curtainRight" class="curtain-panel right"></div>
+          </div>
+          <div class="ac-panel">空调状态<strong id="airTemp">--</strong><div id="airMode" class="muted">待同步</div></div>
+          <div class="sensor-row">
+            <div class="sensor-card">温度<strong id="temperatureValue">--</strong></div>
+            <div class="sensor-card">湿度<strong id="humidityValue">--</strong></div>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>灯光控制中心</h3>
+                <div class="muted">网页端同步 APP 当前灯具数量与亮度</div>
+              </div>
+            </div>
+            <div id="lightCards" class="cards"></div>
+          </div>
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>智能窗帘</h3>
+                <div class="muted">开合度实时映射到房间窗景</div>
+              </div>
+              <div id="curtainBadge" class="pill">待同步</div>
+            </div>
+            <div id="curtainCards" class="cards"></div>
+          </div>
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>空调控制中心</h3>
+                <div id="airControlHint" class="muted">空调状态由 APP 控制，网页端仅同步显示</div>
+              </div>
+              <div id="airBadge" class="pill">待同步</div>
+            </div>
+            <div class="actions">
+              <button id="airPowerBtn" type="button" disabled>空调开关</button>
+              <div id="airInlineMode" class="muted">模式 --</div>
+            </div>
+            <div class="temp-stepper">
+              <button id="airTempDownBtn" class="step-btn" type="button" disabled>-</button>
+              <div class="temp-display"><span class="muted">设定温度</span><strong id="airSetTemp">--</strong></div>
+              <button id="airTempUpBtn" class="step-btn" type="button" disabled>+</button>
+            </div>
+            <div id="airModes" class="mode-row"></div>
+          </div>
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>智能音箱状态</h3>
+                <div class="muted">同步 APP 语音入口、最近指令和音乐播放</div>
+              </div>
+              <div id="speakerBadge" class="pill">待同步</div>
+            </div>
+            <div class="grid-2">
+              <div class="info-item">监听状态<strong id="speakerListening">--</strong></div>
+              <div class="info-item">正在播放<strong id="speakerTrack">--</strong></div>
+            </div>
+            <div id="speakerBroadcast" class="muted" style="margin-top:12px;">最近播报：--</div>
+            <div id="speakerCommand" class="muted" style="margin-top:8px;">最近指令：--</div>
+            <div class="actions">
+              <div id="speakerMusicHint" class="muted">网页端等待播放指令</div>
+              <button id="speakerPlayBtn" type="button" class="active">自动播放</button>
+            </div>
+            <audio id="speakerAudio" preload="auto" controls style="width:100%;margin-top:12px;"></audio>
+          </div>
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>扫地机器人活动区域</h3>
+                <div class="muted">APP 开启后进入自动清扫，网页端实时演示活动位置</div>
+              </div>
+              <div id="robotBadge" class="pill">待命</div>
+            </div>
+            <div id="robotMap" class="robot-map">
+              <div id="robotArea" class="robot-area"></div>
+              <div id="robotDot" class="robot-dot">扫</div>
+              <div class="robot-rooms">
+                <span style="left:8%;top:10%;">客厅</span>
+                <span style="left:62%;top:10%;">卧室</span>
+                <span style="left:9%;top:68%;">厨房</span>
+                <span style="left:62%;top:68%;">卫生间</span>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="info-item">运行模式<strong id="robotMode">--</strong></div>
+              <div class="info-item">电量 / 进度<strong id="robotBattery">--</strong></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-top">
+              <div>
+                <h3>环境监测设置</h3>
+                <div id="environmentHint" class="muted">网页修改后，APP 首页环境数据同步更新</div>
+              </div>
+            </div>
+            <div class="environment-grid">
+              <label><span class="muted">温度</span><input id="environmentTempInput" type="number" min="16" max="35" step="0.1" value="26"></label>
+              <label><span class="muted">湿度</span><input id="environmentHumidityInput" type="number" min="20" max="80" step="1" value="48"></label>
+            </div>
+            <div class="actions">
+              <div id="environmentPreview" class="muted">当前环境：-</div>
+              <button id="environmentSaveBtn" type="button" class="active">同步到 APP</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <aside class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="title">入户门智能门禁</h2>
+            <p class="subtitle">上传门前视频后，网页和 APP 会同步显示最新记录</p>
+          </div>
+          <div id="doorBadge" class="pill">已上锁</div>
+        </div>
+        <div id="cameraBox" class="camera-box">
+          <div id="cameraMedia"></div>
+          <div class="camera-meta">
+            <h3 id="visitorName">门前视频</h3>
+            <div id="visitorRisk" class="muted">风险等级：低风险</div>
+            <div id="cameraStatus" class="muted">摄像头状态：等待上传</div>
+            <div id="cameraTimestamp" class="muted">最近记录：--</div>
+          </div>
+        </div>
+        <div class="actions">
+          <div id="videoHint" class="muted">支持 MP4 / WebM / MOV</div>
+          <label class="upload-label" for="videoUploadInput">上传视频</label>
+          <input id="videoUploadInput" class="video-input" type="file" accept="video/mp4,video/webm,video/quicktime,.mov">
+        </div>
+        <div class="grid-2">
+          <div class="info-item">门锁状态<strong id="lockStatus">已上锁</strong></div>
+          <div class="info-item">门体状态<strong id="doorStatus">门已关闭</strong></div>
+          <div class="info-item">PIN 错误次数<strong id="failedAttempts">0 次</strong></div>
+          <div class="info-item">最近解锁<strong id="unlockTime">--</strong></div>
+        </div>
+        <div class="door-zone">
+          <div class="door-frame"></div>
+          <div id="doorLeaf" class="door-leaf"></div>
+          <div id="lockIcon" class="lock-icon">🔒</div>
+        </div>
+        <div id="doorWarning"></div>
+        <div class="cards">
+          <div class="card">
+            <h3>操作日志</h3>
+            <div id="logs"></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const roomTabsEl = $('roomTabs');
+    const sceneLightsEl = $('sceneLights');
+    const lightCardsEl = $('lightCards');
+    const logsEl = $('logs');
+    const roomNameEl = $('roomName');
+    const roomModeEl = $('roomMode');
+    const lightBadgeEl = $('lightBadge');
+    const summaryEl = $('summary');
+    const metaEl = $('meta');
+    const roomSceneEl = $('roomScene');
+    const curtainLeftEl = $('curtainLeft');
+    const curtainRightEl = $('curtainRight');
+    const airTempEl = $('airTemp');
+    const airModeEl = $('airMode');
+    const airBadgeEl = $('airBadge');
+    const airControlHintEl = $('airControlHint');
+    const airInlineModeEl = $('airInlineMode');
+    const airPowerBtnEl = $('airPowerBtn');
+    const airTempDownBtnEl = $('airTempDownBtn');
+    const airTempUpBtnEl = $('airTempUpBtn');
+    const airSetTempEl = $('airSetTemp');
+    const airModesEl = $('airModes');
+    const speakerBadgeEl = $('speakerBadge');
+    const speakerListeningEl = $('speakerListening');
+    const speakerTrackEl = $('speakerTrack');
+    const speakerBroadcastEl = $('speakerBroadcast');
+    const speakerCommandEl = $('speakerCommand');
+    const speakerMusicHintEl = $('speakerMusicHint');
+    const speakerPlayBtnEl = $('speakerPlayBtn');
+    const speakerAudioEl = $('speakerAudio');
+    const robotBadgeEl = $('robotBadge');
+    const robotAreaEl = $('robotArea');
+    const robotDotEl = $('robotDot');
+    const robotModeEl = $('robotMode');
+    const robotBatteryEl = $('robotBattery');
+    const curtainBadgeEl = $('curtainBadge');
+    const curtainCardsEl = $('curtainCards');
+    const temperatureValueEl = $('temperatureValue');
+    const humidityValueEl = $('humidityValue');
+    const environmentHintEl = $('environmentHint');
+    const environmentTempInputEl = $('environmentTempInput');
+    const environmentHumidityInputEl = $('environmentHumidityInput');
+    const environmentPreviewEl = $('environmentPreview');
+    const environmentSaveBtnEl = $('environmentSaveBtn');
+    const doorBadgeEl = $('doorBadge');
+    const cameraMediaEl = $('cameraMedia');
+    const visitorNameEl = $('visitorName');
+    const visitorRiskEl = $('visitorRisk');
+    const cameraStatusEl = $('cameraStatus');
+    const cameraTimestampEl = $('cameraTimestamp');
+    const videoHintEl = $('videoHint');
+    const videoUploadInputEl = $('videoUploadInput');
+    const lockStatusEl = $('lockStatus');
+    const doorStatusEl = $('doorStatus');
+    const failedAttemptsEl = $('failedAttempts');
+    const unlockTimeEl = $('unlockTime');
+    const doorLeafEl = $('doorLeaf');
+    const lockIconEl = $('lockIcon');
+    const doorWarningEl = $('doorWarning');
+
+    let selectedRoomId = '';
+    let latestState = null;
+    let latestDoorCamera = null;
+    let latestSpeaker = null;
+    let environmentDirty = false;
+    let environmentUpdating = false;
+    let uploadUpdating = false;
+    let speakerControlPending = false;
+
+    const AIR_MODES = ['制冷', '制热', '除湿', '送风', '睡眠'];
+
+    function currentUsername() {
+      return new URLSearchParams(location.search).get('username') || 'linjiaqi';
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function normalizeMode(mode) {
+      const map = {
+        '鍒跺喎': '制冷',
+        '鍒剁儹': '制热',
+        '闄ゆ箍': '除湿',
+        '閫侀': '送风',
+        '鐫＄湢': '睡眠',
+        '鑷姩': '自动',
+        '鎵嬪姩': '手动',
+        '鑺傝兘': '节能',
+        cool: '制冷',
+        heat: '制热',
+        dry: '除湿',
+        fan: '送风',
+        sleep: '睡眠',
+        auto: '自动',
+        manual: '手动',
+        energy: '节能'
+      };
+      return map[mode] || mode || '';
+    }
+
+    function normalizeText(text) {
+      return String(text || '')
+        .replaceAll('瀹㈠巺', '客厅')
+        .replaceAll('鍗у', '卧室')
+        .replaceAll('鍘ㄦ埧', '厨房')
+        .replaceAll('鍗敓闂', '卫生间')
+        .replaceAll('鐏厜', '灯光')
+        .replaceAll('绌鸿皟', '空调')
+        .replaceAll('绐楀笜', '窗帘')
+        .replaceAll('鍏ユ埛闂ㄧ', '入户门禁')
+        .replaceAll('鐨勫', '的家')
+        .replaceAll('宸插紑鍚', '已开启')
+        .replaceAll('宸插叧闂', '已关闭')
+        .replaceAll('鏈挱鏀', '未播放')
+        .replaceAll('鏈€杩戞挱鎶ワ細', '最近播报：')
+        .replaceAll('鏈€杩戞寚浠わ細', '最近指令：')
+        .replaceAll('绛夊緟鎾姤', '等待播报');
+    }
+
+    function formatTime(value) {
+      if (!value) {
+        return '--';
+      }
+      try {
+        return new Date(value).toLocaleString();
+      } catch {
+        return '--';
+      }
+    }
+
+    function avgBrightness(lights) {
+      return lights.length
+        ? Math.round(lights.reduce((sum, device) => sum + (device.brightness || 0), 0) / lights.length)
+        : 0;
+    }
+
+    function chooseRoom(rooms) {
+      const found = selectedRoomId ? rooms.find((room) => room.id === selectedRoomId) : null;
+      return found || rooms[0] || null;
+    }
+
+    function renderRoomTabs(rooms) {
+      const active = chooseRoom(rooms);
+      selectedRoomId = active ? active.id : '';
+      roomTabsEl.innerHTML = rooms.map((room) => (
+        `<button type="button" class="${room.id === selectedRoomId ? 'active' : ''}" data-room-id="${room.id}">${normalizeText(room.name)}</button>`
+      )).join('');
+      roomTabsEl.querySelectorAll('button').forEach((button) => {
+        button.onclick = () => {
+          selectedRoomId = button.dataset.roomId;
+          renderState();
+        };
+      });
+    }
+
+    function renderSceneLights(lights) {
+      sceneLightsEl.innerHTML = lights.map((_, index) => `<div class="ceiling-light" data-index="${index}"></div>`).join('');
+      sceneLightsEl.querySelectorAll('.ceiling-light').forEach((element, index) => {
+        const brightness = clamp((lights[index] && lights[index].brightness) || 0, 0, 100);
+        element.style.background = brightness > 0 ? 'rgba(255,231,145,.9)' : 'rgba(227,235,248,.24)';
+        element.style.boxShadow = brightness > 0 ? `0 0 ${12 + brightness / 2}px rgba(255,224,130,.75)` : 'none';
+      });
+    }
+
+    function renderLightCard(device) {
+      const brightness = clamp(device.brightness || 0, 0, 100);
+      return `<article class="card"><div class="card-top"><div><h4>${normalizeText(device.name)}</h4><div class="muted">${device.power ? '已开启' : '已关闭'} / ${brightness}%</div></div><div class="pill ${device.power ? 'active' : ''}">${brightness}%</div></div><div class="meter"><div class="fill" style="width:${brightness}%"></div></div></article>`;
+    }
+
+    function applyCurtain(value) {
+      const ratio = clamp(value || 0, 0, 100) / 100;
+      const shift = Math.round(ratio * 44);
+      curtainLeftEl.style.transform = `translateX(-${shift}%)`;
+      curtainRightEl.style.transform = `translateX(${shift}%)`;
+      curtainLeftEl.style.opacity = `${0.96 - ratio * 0.26}`;
+      curtainRightEl.style.opacity = `${0.96 - ratio * 0.26}`;
+    }
+
+    function renderCurtainCard(device) {
+      const openness = clamp(device.brightness || 0, 0, 100);
+      return `<article class="card"><div class="card-top"><div><h4>${normalizeText(device.name)}</h4><div class="muted">${device.power ? '已开启' : '已关闭'} / 开合度 ${openness}% / ${normalizeMode(device.mode) || '自动'}</div></div><div class="pill ${device.power ? 'active' : ''}">${openness}%</div></div><div class="meter"><div class="fill" style="width:${openness}%;background:linear-gradient(90deg,#8cb5de,#d9e7f6);"></div></div></article>`;
+    }
+
+    function renderAir(device) {
+      if (!device) {
+        airBadgeEl.textContent = '未发现空调';
+        airBadgeEl.classList.remove('active');
+        airInlineModeEl.textContent = '模式 --';
+        airSetTempEl.textContent = '--';
+        airModesEl.innerHTML = '<div class="empty-note">当前房间暂无空调设备。</div>';
+        return;
+      }
+      const temperature = clamp(device.temperature || 26, 16, 30);
+      airBadgeEl.textContent = device.power ? '空调运行中' : '空调已关闭';
+      airBadgeEl.classList.toggle('active', !!device.power);
+      airInlineModeEl.textContent = `模式 ${normalizeMode(device.mode) || '待机'}`;
+      airSetTempEl.textContent = `${temperature}°C`;
+      airPowerBtnEl.textContent = device.power ? '关闭空调' : '开启空调';
+      airPowerBtnEl.classList.toggle('active', !!device.power);
+      airModesEl.innerHTML = AIR_MODES.map((mode) => (
+        `<button type="button" disabled class="${normalizeMode(device.mode) === mode ? 'active' : ''}">${mode}</button>`
+      )).join('');
+    }
+
+    function renderSpeaker(device) {
+      latestSpeaker = device || null;
+      if (!device) {
+        speakerBadgeEl.textContent = '未接入';
+        speakerBadgeEl.classList.remove('active');
+        speakerListeningEl.textContent = '--';
+        speakerTrackEl.textContent = '--';
+        speakerBroadcastEl.textContent = '最近播报：--';
+        speakerCommandEl.textContent = '最近指令：--';
+        speakerMusicHintEl.textContent = '网页端等待播放指令';
+        speakerPlayBtnEl.textContent = '自动播放';
+        speakerAudioEl.pause();
+        speakerAudioEl.removeAttribute('src');
+        speakerControlPending = false;
+        return;
+      }
+
+      const title = normalizeText(device.musicTitle || '智能音箱演示音乐');
+      const url = device.musicUrl || '/music/demo-tone.wav';
+      speakerBadgeEl.textContent = device.power ? '在线' : '离线';
+      speakerBadgeEl.classList.toggle('active', !!device.power);
+      speakerListeningEl.textContent = device.listening === false ? '已关闭' : '监听中';
+      speakerTrackEl.textContent = device.musicPlaying ? title : '未播放';
+      speakerBroadcastEl.textContent = `最近播报：${normalizeText(device.lastBroadcast || '等待播报')}`;
+      speakerCommandEl.textContent = `最近指令：${normalizeText(device.lastCommand || '--')}`;
+      speakerPlayBtnEl.textContent = device.musicPlaying ? '暂停播放' : '自动播放';
+      speakerPlayBtnEl.classList.toggle('active', !device.musicPlaying);
+
+      if (speakerAudioEl.getAttribute('src') !== url) {
+        speakerAudioEl.src = url;
+      }
+
+      if (device.musicPlaying) {
+        speakerMusicHintEl.textContent = `网页端播放：${title}`;
+        if (!speakerControlPending && speakerAudioEl.paused) {
+          speakerAudioEl.play().catch(() => {
+            speakerMusicHintEl.textContent = '浏览器限制了自动播放，请点击下方播放器继续。';
+          });
+        }
+      } else {
+        speakerMusicHintEl.textContent = '网页端等待播放指令';
+        if (!speakerAudioEl.paused) {
+          speakerAudioEl.pause();
+        }
+      }
+    }
+
+    function robotLayout(device, progress) {
+      const routes = [
+        { name: '客厅', inset: '10% 52% 52% 8%', dotLeft: '25%', dotTop: '25%' },
+        { name: '卧室', inset: '10% 8% 52% 52%', dotLeft: '72%', dotTop: '25%' },
+        { name: '厨房', inset: '56% 52% 8% 8%', dotLeft: '25%', dotTop: '72%' },
+        { name: '卫生间', inset: '56% 8% 8% 52%', dotLeft: '72%', dotTop: '72%' }
+      ];
+      if (!device || !device.power) {
+        return routes[0];
+      }
+      const tick = Math.floor(Date.now() / 1800);
+      return routes[(tick + Math.floor(progress / 25)) % routes.length];
+    }
+
+    function renderRobot(device) {
+      if (!device) {
+        robotBadgeEl.textContent = '未接入';
+        robotBadgeEl.classList.remove('active');
+        robotAreaEl.style.opacity = '0';
+        robotDotEl.style.left = '50%';
+        robotDotEl.style.top = '50%';
+        robotModeEl.textContent = '--';
+        robotBatteryEl.textContent = '--';
+        return;
+      }
+      const progress = clamp(Number(device.cleaningProgress || 0), 0, 100);
+      const battery = clamp(Number(device.battery || 0), 0, 100);
+      const layout = robotLayout(device, progress);
+      robotBadgeEl.textContent = device.power ? '清扫中' : '待命';
+      robotBadgeEl.classList.toggle('active', !!device.power);
+      robotAreaEl.style.opacity = device.power ? '1' : '.45';
+      robotAreaEl.style.inset = layout.inset;
+      robotDotEl.style.left = layout.dotLeft;
+      robotDotEl.style.top = layout.dotTop;
+      robotDotEl.style.transform = `translate(-50%, -50%) rotate(${progress * 3.6}deg)`;
+      robotModeEl.textContent = `自动 · ${layout.name}`;
+      robotBatteryEl.textContent = `${battery}% / ${progress}%`;
+    }
+
+    function findDoor(data) {
+      const doors = data.rooms.flatMap((room) => room.devices.filter((device) => device.type === 'door'));
+      return doors.find((device) => String(device.id || '').includes('entrance')) || doors[0] || null;
+    }
+
+    function renderDoorCamera(camera) {
+      cameraMediaEl.innerHTML = camera && camera.videoUrl
+        ? `<video class="camera-video" src="${camera.videoUrl}" controls preload="metadata"></video>`
+        : '<div class="camera-empty">暂无门前视频</div>';
+      cameraTimestampEl.textContent = `最近记录：${camera && camera.capturedAt ? formatTime(camera.capturedAt) : '--'}`;
+    }
+
+    function renderDoor(device) {
+      if (!device) {
+        doorBadgeEl.textContent = '未发现门禁';
+        cameraMediaEl.innerHTML = '<div class="camera-empty">当前账号还没有门禁设备</div>';
+        return;
+      }
+
+      const unlocked = device.lockStatus === 'unlocked' || device.locked === false;
+      const opened = device.doorStatus === 'opened';
+      doorBadgeEl.textContent = unlocked ? '已解锁' : '已上锁';
+      doorBadgeEl.classList.toggle('active', unlocked);
+      visitorRiskEl.textContent = `风险等级：${device.riskLevel === 'high' ? '高风险' : device.riskLevel === 'medium' ? '中风险' : '低风险'}`;
+      cameraStatusEl.textContent = latestDoorCamera && latestDoorCamera.videoUrl ? '摄像头状态：最新视频已同步' : '摄像头状态：等待上传';
+      lockStatusEl.textContent = unlocked ? '已解锁' : '已上锁';
+      doorStatusEl.textContent = opened ? '门已打开' : '门已关闭';
+      failedAttemptsEl.textContent = `${device.failedAttempts || 0} 次`;
+      unlockTimeEl.textContent = device.lastUnlockTime ? formatTime(device.lastUnlockTime) : '--';
+      doorLeafEl.classList.toggle('open', opened);
+      lockIconEl.textContent = unlocked ? '🔓' : '🔒';
+      renderDoorCamera(latestDoorCamera);
+    }
+
+    function renderLog(log) {
+      return `<div class="log"><strong>${formatTime(log.time)}</strong> ${normalizeText(log.detail)}</div>`;
+    }
+
+    function renderState() {
+      if (!latestState) {
+        return;
+      }
+
+      const data = latestState.data;
+      const rooms = data.rooms.filter((room) => room.devices.some((device) => ['light', 'curtain', 'air'].includes(device.type)));
+      const candidates = rooms.length ? rooms : data.rooms;
+      const target = chooseRoom(candidates);
+      if (!target) {
+        return;
+      }
+
+      const lights = target.devices.filter((device) => device.type === 'light');
+      const curtains = target.devices.filter((device) => device.type === 'curtain');
+      const air = target.devices.find((device) => device.type === 'air');
+      const allDevices = data.rooms.flatMap((room) => room.devices);
+      const speaker = allDevices.find((device) => device.type === 'speaker');
+      const robot = allDevices.find((device) => device.type === 'robot');
+      const door = findDoor(data);
+      const average = avgBrightness(lights);
+      const curtain = curtains[0];
+
+      renderRoomTabs(candidates);
+      roomNameEl.textContent = normalizeText(target.name);
+      roomModeEl.textContent = `${data.mode === 'home' ? '在家模式' : '离家模式'} / 场景同步中`;
+      summaryEl.textContent = `${normalizeText(data.homeName)} · ${formatTime(data.updatedAt)}`;
+      metaEl.textContent = `用户：${currentUsername()} / 存储模式：${latestState.storage}`;
+      lightBadgeEl.textContent = average > 0 ? `灯光已开启 ${average}%` : '灯光关闭';
+      lightBadgeEl.classList.toggle('active', average > 0);
+      roomSceneEl.style.background = `radial-gradient(circle at 50% 18%,rgba(255,236,164,${0.12 + average / 420}),transparent 28%),linear-gradient(180deg,rgb(${32 + average * 0.7},${45 + average * 0.68},${64 + average * 0.6}) 0%,rgb(${16 + average * 0.28},${24 + average * 0.28},${38 + average * 0.28}) 100%)`;
+      renderSceneLights(lights);
+      applyCurtain(curtain ? curtain.brightness || 0 : 0);
+      lightCardsEl.innerHTML = lights.length ? lights.map(renderLightCard).join('') : '<div class="empty-note">当前房间暂无灯光设备。</div>';
+      curtainBadgeEl.textContent = curtain ? `窗帘 ${curtain.brightness || 0}%` : '未发现窗帘';
+      curtainBadgeEl.classList.toggle('active', !!(curtain && curtain.power));
+      curtainCardsEl.innerHTML = curtains.length ? curtains.map(renderCurtainCard).join('') : '<div class="empty-note">当前房间暂无窗帘设备。</div>';
+      airTempEl.textContent = air ? `${air.temperature || '--'}°C` : '--';
+      airModeEl.textContent = air ? `${air.power ? '运行中' : '已关闭'} / ${normalizeMode(air.mode) || '待机'}` : '待同步';
+      renderAir(air);
+      renderSpeaker(speaker);
+      renderRobot(robot);
+
+      const env = data.environment || {};
+      const temperature = typeof env.temperature === 'number' ? env.temperature.toFixed(1) : '--';
+      const humidity = typeof env.humidity === 'number' ? env.humidity.toFixed(0) : '--';
+      temperatureValueEl.textContent = `${temperature}°C`;
+      humidityValueEl.textContent = `${humidity}%`;
+      if (!environmentDirty && !environmentUpdating) {
+        environmentTempInputEl.value = typeof env.temperature === 'number' ? String(env.temperature) : '26';
+        environmentHumidityInputEl.value = typeof env.humidity === 'number' ? String(env.humidity) : '48';
+      }
+      environmentPreviewEl.textContent = `当前环境：${temperature}°C / ${humidity}%`;
+      renderDoor(door);
+
+      const logs = data.logs.filter((log) => (
+        target.devices.some((device) => log.target === device.name)
+        || (door && log.target === door.name)
+        || log.action.includes('DOOR')
+        || log.action.includes('CAMERA')
+        || log.action.includes('DEVICE')
+      ));
+      logsEl.innerHTML = (logs.length ? logs : data.logs).slice(0, 10).map(renderLog).join('');
+    }
+
+    async function fetchDoorCamera(id) {
+      if (!id) {
+        latestDoorCamera = null;
+        return;
+      }
+      try {
+        const response = await fetch(`/api/door/camera/latest?username=${encodeURIComponent(currentUsername())}&deviceId=${encodeURIComponent(id)}`);
+        const payload = await response.json();
+        latestDoorCamera = payload.success ? payload.camera : null;
+      } catch {
+        latestDoorCamera = null;
+      }
+    }
+
+    async function syncState() {
+      try {
+        const response = await fetch(`/api/status?username=${encodeURIComponent(currentUsername())}`);
+        const payload = await response.json();
+        if (!payload.success) {
+          throw new Error('status failed');
+        }
+        latestState = payload;
+        const door = findDoor(payload.data);
+        await fetchDoorCamera(door ? door.id : '');
+        renderState();
+      } catch {
+        summaryEl.textContent = '网关未连接，请先启动 Node.js 后端';
+        lightCardsEl.innerHTML = '<div class="empty-note">后端未连接。</div>';
+        curtainCardsEl.innerHTML = '<div class="empty-note">后端未连接。</div>';
+        airModesEl.innerHTML = '<div class="empty-note">后端未连接。</div>';
+        renderSpeaker(null);
+        renderRobot(null);
+      }
+    }
+
+    async function saveEnvironment() {
+      if (environmentUpdating) {
+        return;
+      }
+      const temperature = Number(environmentTempInputEl.value);
+      const humidity = Number(environmentHumidityInputEl.value);
+      if (Number.isNaN(temperature) || Number.isNaN(humidity)) {
+        environmentHintEl.textContent = '请输入有效的温湿度数值';
+        return;
+      }
+
+      environmentUpdating = true;
+      try {
+        const response = await fetch('/api/environment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: currentUsername(), temperature, humidity })
+        });
+        const payload = await response.json();
+        if (!payload.success) {
+          throw new Error('save failed');
+        }
+        environmentDirty = false;
+        environmentHintEl.textContent = '环境值已同步到 APP';
+        await syncState();
+      } catch {
+        environmentHintEl.textContent = '环境值保存失败，请检查后端连接';
+      } finally {
+        environmentUpdating = false;
+      }
+    }
+
+    async function controlSpeakerMusic() {
+      if (!latestSpeaker) {
+        return;
+      }
+
+      const playing = latestSpeaker.musicPlaying !== true;
+      const url = latestSpeaker.musicUrl || '/music/demo-tone.wav';
+      const title = normalizeText(latestSpeaker.musicTitle || '智能音箱演示音乐');
+      speakerControlPending = true;
+
+      try {
+        if (speakerAudioEl.getAttribute('src') !== url) {
+          speakerAudioEl.src = url;
+        }
+        if (playing) {
+          speakerMusicHintEl.textContent = `网页端播放：${title}`;
+          await speakerAudioEl.play();
+        } else {
+          speakerMusicHintEl.textContent = '正在暂停...';
+          speakerAudioEl.pause();
+        }
+      } catch {
+        speakerControlPending = false;
+        speakerMusicHintEl.textContent = '浏览器未允许播放，请先点击音频播放器上的播放键。';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/device', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: currentUsername(),
+            deviceId: latestSpeaker.id,
+            type: 'speaker',
+            power: true,
+            listening: true,
+            musicPlaying: playing,
+            musicTrackId: latestSpeaker.musicTrackId || 'demo-tone',
+            lastCommand: playing ? '网页端自动播放音乐' : '网页端暂停音乐'
+          })
+        });
+        const payload = await response.json();
+        if (!payload.success) {
+          throw new Error('control failed');
+        }
+        await syncState();
+      } catch {
+        speakerMusicHintEl.textContent = '音箱播放控制失败，请检查后端连接';
+      } finally {
+        speakerControlPending = false;
+      }
+    }
+
+    async function uploadDoorVideo(id, file) {
+      if (!id || !file || uploadUpdating) {
+        return;
+      }
+      if (file.size > 20 * 1024 * 1024) {
+        videoHintEl.textContent = '视频请控制在 20MB 以内';
+        return;
+      }
+
+      uploadUpdating = true;
+      videoHintEl.textContent = '正在上传视频...';
+      try {
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = String(reader.result || '');
+            const splitIndex = result.indexOf(',');
+            resolve(splitIndex >= 0 ? result.slice(splitIndex + 1) : result);
+          };
+          reader.onerror = () => reject(new Error('read failed'));
+          reader.readAsDataURL(file);
+        });
+
+        const response = await fetch('/api/door/camera/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: currentUsername(),
+            deviceId: id,
+            fileName: file.name,
+            mimeType: file.type || 'video/mp4',
+            base64
+          })
+        });
+        const payload = await response.json();
+        if (!payload.success) {
+          throw new Error('upload failed');
+        }
+        latestDoorCamera = payload.camera || null;
+        videoHintEl.textContent = '上传完成，APP 与网页已同步';
+        await syncState();
+      } catch {
+        videoHintEl.textContent = '视频上传失败，请检查文件或后端连接';
+      } finally {
+        videoUploadInputEl.value = '';
+        uploadUpdating = false;
+      }
+    }
+
+    environmentTempInputEl.addEventListener('input', () => { environmentDirty = true; });
+    environmentHumidityInputEl.addEventListener('input', () => { environmentDirty = true; });
+    environmentSaveBtnEl.addEventListener('click', saveEnvironment);
+    speakerPlayBtnEl.addEventListener('click', controlSpeakerMusic);
+    videoUploadInputEl.addEventListener('change', async () => {
+      const file = videoUploadInputEl.files && videoUploadInputEl.files[0];
+      if (!file || !latestState) {
+        return;
+      }
+      const door = findDoor(latestState.data);
+      if (!door) {
+        videoHintEl.textContent = '当前没有可上传的门禁设备';
+        return;
+      }
+      await uploadDoorVideo(door.id, file);
+    });
+
+    syncState();
+    setInterval(syncState, 1000);
+  </script>
+  <script type="module" src="/assets/bedroom-enhance.js?v=7"></script>
+</body>
+</html>

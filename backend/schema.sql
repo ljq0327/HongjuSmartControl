@@ -1,0 +1,91 @@
+CREATE DATABASE IF NOT EXISTS hongju_control
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE hongju_control;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(64) NOT NULL UNIQUE,
+  password_plain VARCHAR(128) NOT NULL,
+  role VARCHAR(32) NOT NULL DEFAULT 'user',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS rooms (
+  id VARCHAR(64) PRIMARY KEY,
+  user_id INT NOT NULL,
+  name VARCHAR(64) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS devices (
+  id VARCHAR(64) PRIMARY KEY,
+  room_id VARCHAR(64) NOT NULL,
+  type VARCHAR(32) NOT NULL,
+  name VARCHAR(64) NOT NULL,
+  power TINYINT(1) NOT NULL DEFAULT 0,
+  locked TINYINT(1) NULL,
+  brightness INT NULL,
+  temperature INT NULL,
+  mode VARCHAR(32) NULL,
+  metadata TEXT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_devices_room_id (room_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS device_states (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  device_id VARCHAR(64) NOT NULL,
+  power TINYINT(1) NOT NULL DEFAULT 0,
+  locked TINYINT(1) NULL,
+  brightness INT NULL,
+  temperature INT NULL,
+  mode VARCHAR(32) NULL,
+  metadata TEXT NULL,
+  recorded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_device_states_device_id (device_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS operation_logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  action VARCHAR(64) NOT NULL,
+  target VARCHAR(64) NOT NULL,
+  detail VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS scene_modes (
+  id VARCHAR(64) PRIMARY KEY,
+  user_id INT NOT NULL,
+  name VARCHAR(64) NOT NULL,
+  payload TEXT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS sensor_records (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  room_id VARCHAR(64) NOT NULL,
+  temperature DECIMAL(5,2) NULL,
+  humidity DECIMAL(5,2) NULL,
+  recorded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_sensor_records_room_id (room_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS door_camera_videos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  device_id VARCHAR(64) NOT NULL,
+  video_url VARCHAR(255) NOT NULL,
+  cover_url VARCHAR(255) NULL,
+  captured_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  duration_sec INT NULL,
+  camera_status VARCHAR(32) NOT NULL DEFAULT 'normal',
+  notes VARCHAR(255) NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_door_camera_user (user_id),
+  INDEX idx_door_camera_device_time (device_id, captured_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
